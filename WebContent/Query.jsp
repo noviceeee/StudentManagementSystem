@@ -136,7 +136,7 @@ response.setCharacterEncoding("utf-8");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>查询结果</title>
 <style type="text/css">
 table {
 	border-collapse: collapse;
@@ -157,7 +157,7 @@ div {
 <body>
 <a href="Show.jsp">返回</a>
 	<div>
-		<font size="5">查询结果</font>
+<font size="5">查询结果</font>
 		<hr>
 		<table border="1">
 			<tr bgcolor="LightSteelBlue">
