@@ -16,6 +16,8 @@
 	int count;//信息总数
 	int start;//当前页第一条信息的前一条在数据库中的位置
 	String strPage = request.getParameter("myPage");//接收到的请求页数
+	String orderWay;//排序方式
+
 	int myPage;//当前页数
 	if (strPage == null || strPage.trim().equals("")) {
 		myPage = 1;
@@ -26,6 +28,23 @@
 			myPage = 1;
 		}
 	}
+
+	String order = request.getParameter("order");//接收到的排序方式
+	if (order == null) {
+		orderWay = "id asc";
+	} else if (order.equals("idDesc"))
+			orderWay = "id desc";
+		else if (order.equals("hAsc"))
+			orderWay = "height asc";
+		else if (order.equals("hDesc"))
+			orderWay = "height desc";
+		else if (order.equals("wAsc"))
+			orderWay = "weight asc";
+		else if (order.equals("wDesc"))
+			orderWay = "weight desc";
+		else
+			orderWay = "id asc";
+	
 
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -45,10 +64,10 @@
 		start = (myPage - 1) * pageSize;
 
 		s = conn.createStatement();
-		rs = s.executeQuery("select * from stu limit " + start + ", " + pageSize);
-		while (rs.next()) {//将查询结果放在一起，之后一起输出
-			str = str + "<tr class='info'><td>" + rs.getInt("id") + "</td><td>" + rs.getString("name") + "</td><td>"
-					+ rs.getString("sex") + "</td><td>" + rs.getString("age") + "</td><td>"
+		rs = s.executeQuery("select * from stu order by " + orderWay + " limit " + start + ", " + pageSize);
+		while (rs.next()) {//将查询结果放在一起
+			str = str + "<tr class='info'><td>" + rs.getInt("id") + "</td><td>" + rs.getString("name")
+					+ "</td><td>" + rs.getString("sex") + "</td><td>" + rs.getString("age") + "</td><td>"
 					+ rs.getInt("height") + "</td><td>" + rs.getInt("weight") + "</td></tr>";
 		}
 	} catch (Exception e) {
@@ -91,9 +110,11 @@ td {
 	width: 100px;
 	text-align: center;
 }
+
 div {
 	text-align: center;
 }
+
 .info:hover {
 	background-color: gray;
 	color: white;
@@ -101,26 +122,47 @@ div {
 </style>
 </head>
 <body>
+		<form action="Show.jsp" name="fOrder">
+	<font size="2">排序方式</font>
+		<select name="order" onchange="document.fOrder.submit()" > 
+			<option value="idAsc" <%=orderWay.equals("id asc")?"selected":"" %>>学号从小到大
+			<option value="idDesc" <%=orderWay.equals("id desc")?"selected":"" %>>学号从大到小
+			<option value="hAsc" <%=orderWay.equals("height asc")?"selected":"" %>>身高从低到高
+			<option value="hDesc" <%=orderWay.equals("height desc")?"selected":"" %>>身高从高到低
+			<option value="wAsc" <%=orderWay.equals("weight asc")?"selected":"" %>>体重从轻到重
+			<option value="wDesc" <%=orderWay.equals("weight desc")?"selected":"" %>>体重从重到轻
+		</select><br>
+	</form>
+	
 	<div>
 		<font size="5">学生信息管理系统</font>
-	</div><br>
-	<table border="1">
-		<tr bgcolor="LightSteelBlue">
-			<td>学号</td>
-			<td>姓名</td>
-			<td>性别</td>
-			<td>年龄</td>
-			<td>身高（cm）</td>
-			<td>体重（kg）</td>
-		</tr>
-		<%=str%>
-	</table>
-	<br>
-	<div>
-		<a href="Show.jsp?myPage=1">首页</a> <a
+		<hr>		
+		<table border="1">
+			<tr bgcolor="LightSteelBlue">
+				<td>学号</td>
+				<td>姓名</td>
+				<td>性别</td>
+				<td>年龄</td>
+				<td>身高（cm）</td>
+				<td>体重（kg）</td>
+			</tr>
+			<%=str%>
+		</table>
+		<br> <a href="Show.jsp?myPage=1">首页</a> <a
 			href="Show.jsp?myPage=<%=myPage - 1%>">上一页</a> 当前第<%=myPage%>页， 共<%=totalPage%>页
 		<a href="Show.jsp?myPage=<%=myPage + 1%>">下一页</a> <a
-			href="Show.jsp?myPage=<%=totalPage%>">末页</a>
+			href="Show.jsp?myPage=<%=totalPage%>">末页</a><br>
+		<br>
+		
+		<form action="">
+			学号<input type="text" name="id"> 姓名<input type="text"
+				name="name"> 性别<input type="text" name="sex"><br>
+			<br> 年龄<input type="text" name="age"> 身高<input
+				type="text" name="height"> 体重<input type="text"
+				name="weight"><br> <br> <input type="submit"
+				value="查询"> <input type="reset" value="重置">
+		</form>
 	</div>
+
 </body>
 </html>
