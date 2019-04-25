@@ -2,6 +2,9 @@
 	pageEncoding="utf-8"%>
 <%@ page import="java.sql.*"%>
 <%
+request.setCharacterEncoding("utf-8");
+response.setCharacterEncoding("utf-8");
+
 	String url = "jdbc:mysql://localhost/student?serverTimezone=Asia/Shanghai";
 	String user = "user1";
 	String password = "123";
@@ -147,14 +150,14 @@ div {
 				<td>体重（kg）</td>
 			</tr>
 			<%=str%>
-		</table>
+		</table><%str=""; %>
 		<br> <a href="Show.jsp?myPage=1">首页</a> <a
 			href="Show.jsp?myPage=<%=myPage - 1%>">上一页</a> 当前第<%=myPage%>页， 共<%=totalPage%>页
 		<a href="Show.jsp?myPage=<%=myPage + 1%>">下一页</a> <a
 			href="Show.jsp?myPage=<%=totalPage%>">末页</a><br>
 		<br>
 		
-		<form action="">
+		<form action="Query.jsp">
 			学号<input type="text" name="id"> 姓名<input type="text"
 				name="name"> 性别<input type="text" name="sex"><br>
 			<br> 年龄<input type="text" name="age"> 身高<input
