@@ -1,51 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-<%!String checkInt(String str) {
-		int num = 0;
-		if (str == null)
-			return null;
-		str = str.trim();
-		if (str.equals(""))
-			return null;
-		try {
-			num = Integer.parseInt(str);
-			if (num <= 0)
-				return null;
-			return "" + num;
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	String checkStr(String str) {
-		if (str == null)
-			return null;
-		str = str.trim();
-		if (str.equals(""))
-			return null;
-		else
-			return str;
-
-	}%>
+<%@ include file="InfoCheck.jsp" %>
 <%
 request.setCharacterEncoding("utf-8");
 response.setCharacterEncoding("utf-8");
 
-	String strId = request.getParameter("id");
-	String strName = request.getParameter("name");
-	String strSex = request.getParameter("sex");
-	String strAge = request.getParameter("age");
-	String strHeight = request.getParameter("height");
-	String strWeight = request.getParameter("weight");
-	String id = checkInt(strId);
-	String name = checkStr(strName);
-	String sex = checkStr(strSex);
-	String age = checkInt(strAge);
-	String height = checkInt(strHeight);
-	String weight = checkInt(strWeight);
+String strId = request.getParameter("id");
+String strName = request.getParameter("name");
+String strSex = request.getParameter("sex");
+String strAge = request.getParameter("age");
+String strHeight = request.getParameter("height");
+String strWeight = request.getParameter("weight");
+int id = checkInt(strId);
+String name = checkStr(strName);
+String sex = checkStr(strSex);
+int age = checkInt(strAge);
+int height = checkInt(strHeight);
+int weight = checkInt(strWeight);
+
 
 	String url = "jdbc:mysql://localhost/student?serverTimezone=Asia/Shanghai";
 	String user = "user1";
@@ -59,32 +32,32 @@ response.setCharacterEncoding("utf-8");
 	int count = 0;//信息总数
 	String where = "where";
 
-	if (id != null) {
+	if (id >0) {
 		if (!where.equals("where"))
 			where += " and";
-		where += " id=" + id;
+		where += " id = " + id;
 	}
 	if (name != null) {
 		if (!where.equals("where"))
 			where += " and";
-		where += " name='" + name+"'";
+		where += " name like '%" + name+"%'";
 	}
 	if (sex != null) {
 		if (!where.equals("where"))
 			where += " and";
 		where += " sex='" + sex+"'";
 	}
-	if (age != null) {
+	if (age >0) {
 		if (!where.equals("where"))
 			where += " and";
 		where += " age=" + age;
 	}
-	if (height != null) {
+	if (height >0) {
 		if (!where.equals("where"))
 			where += " and";
 		where += " height=" + height;
 	}
-	if (weight != null) {
+	if (weight >0) {
 		if (!where.equals("where"))
 			where += " and";
 		where += " weight=" + weight;

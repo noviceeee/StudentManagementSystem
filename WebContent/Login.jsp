@@ -21,11 +21,11 @@
 <title>登录页面</title>
 </head>
 <body>
-
 <form action="Login.jsp" method="post">
 			用户名<input type="text" name="user">
 			密码<input type="password" name="password">
 				<input type="submit" value="登录">
-				<input type="reset" value="重置"></form>
+				<input type="reset" value="重置"></form><br>
+	<a href="Show.jsp">返回</a>
 </body>
 </html>

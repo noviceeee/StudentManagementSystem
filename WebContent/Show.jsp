@@ -2,25 +2,27 @@
 	pageEncoding="utf-8"%>
 <%@ page import="java.sql.*"%>
 <%
-request.setCharacterEncoding("utf-8");
-response.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("utf-8");
+	response.setCharacterEncoding("utf-8");
 
-String admin = (String)session.getAttribute("admin");
-String functions;
+	String admin = (String) session.getAttribute("admin");
+	String add = "";
+	String update = "";
+	String delete = "";
 
-boolean login = false;
-if(admin!=null&&admin.equals("true")){
-	login = true;
+	 boolean login = false;
+	
+	if (admin != null && admin.equals("true")) {
+		login = true;
 	}
-if(login){
-	functions =
-	"<a href='Insert.jsp'>添加</a>&nbsp&nbsp"
-	+"<a href='Update.jsp'>修改</a>&nbsp&nbsp"
-	+"<a href='Delete.jsp'>删除</a>";
 
-}else{
-		functions = "<p align='right'>使用更多功能，请先<a href='Login.jsp'>登录</a></p>";
-}
+	if (login){
+		add = "<a href='Insert.jsp'>添加学生信息</a><p align='right'>";
+		}
+	else{
+		add = "<p align='right'>使用更多功能，请先<a href='Login.jsp'>登录</a></p>";
+		
+	}
 
 	String url = "jdbc:mysql://localhost/student?serverTimezone=Asia/Shanghai";
 	String user = "user1";
@@ -53,18 +55,17 @@ if(login){
 	if (order == null) {
 		orderWay = "id asc";
 	} else if (order.equals("idDesc"))
-			orderWay = "id desc";
-		else if (order.equals("hAsc"))
-			orderWay = "height asc";
-		else if (order.equals("hDesc"))
-			orderWay = "height desc";
-		else if (order.equals("wAsc"))
-			orderWay = "weight asc";
-		else if (order.equals("wDesc"))
-			orderWay = "weight desc";
-		else
-			orderWay = "id asc";
-	
+		orderWay = "id desc";
+	else if (order.equals("hAsc"))
+		orderWay = "height asc";
+	else if (order.equals("hDesc"))
+		orderWay = "height desc";
+	else if (order.equals("wAsc"))
+		orderWay = "weight asc";
+	else if (order.equals("wDesc"))
+		orderWay = "weight desc";
+	else
+		orderWay = "id asc";
 
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -86,9 +87,14 @@ if(login){
 		s = conn.createStatement();
 		rs = s.executeQuery("select * from stu order by " + orderWay + " limit " + start + ", " + pageSize);
 		while (rs.next()) {//将查询结果放在一起
+			if (login) {
+				update = "<td class='operate'><a href='Update.jsp?id=" + rs.getInt("id") + "'>修改</a></td>";
+				delete = "<td class='operate'><a href='Delete.jsp?id=" + rs.getInt("id") + "'>删除</a></td>";
+			}
 			str = str + "<tr class='info'><td>" + rs.getInt("id") + "</td><td>" + rs.getString("name")
 					+ "</td><td>" + rs.getString("sex") + "</td><td>" + rs.getString("age") + "</td><td>"
-					+ rs.getInt("height") + "</td><td>" + rs.getInt("weight") + "</td></tr>";
+					+ rs.getInt("height") + "</td><td>" + rs.getInt("weight") + "</td>"
+					+ update + delete + "</tr>";
 		}
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -139,24 +145,34 @@ div {
 	background-color: gray;
 	color: white;
 }
+
+.operate {
+	width: 50px;
+}
 </style>
 </head>
 <body>
-		<form action="Show.jsp" name="fOrder">
-	<font size="2">排序方式</font>
-		<select name="order" onchange="document.fOrder.submit()" > 
-			<option value="idAsc" <%=orderWay.equals("id asc")?"selected":"" %>>学号从小到大
-			<option value="idDesc" <%=orderWay.equals("id desc")?"selected":"" %>>学号从大到小
-			<option value="hAsc" <%=orderWay.equals("height asc")?"selected":"" %>>身高从低到高
-			<option value="hDesc" <%=orderWay.equals("height desc")?"selected":"" %>>身高从高到低
-			<option value="wAsc" <%=orderWay.equals("weight asc")?"selected":"" %>>体重从轻到重
-			<option value="wDesc" <%=orderWay.equals("weight desc")?"selected":"" %>>体重从重到轻
+	<form action="Show.jsp" name="fOrder">
+		<font size="2">排序方式</font> <select name="order"
+			onchange="document.fOrder.submit()">
+			<option value="idAsc" <%=orderWay.equals("id asc") ? "selected" : ""%>>学号从小到大
+			
+			<option value="idDesc" <%=orderWay.equals("id desc") ? "selected" : ""%>>学号从大到小
+			
+			<option value="hAsc"
+				<%=orderWay.equals("height asc") ? "selected" : ""%>>身高从低到高
+			<option value="hDesc"
+				<%=orderWay.equals("height desc") ? "selected" : ""%>>身高从高到低
+			<option value="wAsc"
+				<%=orderWay.equals("weight asc") ? "selected" : ""%>>体重从轻到重
+			<option value="wDesc"
+				<%=orderWay.equals("weight desc") ? "selected" : ""%>>体重从重到轻
 		</select><br>
 	</form>
-	
+
 	<div>
-		<font size="5">学生信息管理系统</font>
-		<hr>		
+		<font size="5">学生信息管理系统</font><br>
+		<hr>
 		<table border="1">
 			<tr bgcolor="LightSteelBlue">
 				<td>学号</td>
@@ -165,16 +181,19 @@ div {
 				<td>年龄</td>
 				<td>身高（cm）</td>
 				<td>体重（kg）</td>
+			<%if(login) {%>	<td colspan="2">操作</td><%} %>
 			</tr>
 			<%=str%>
-				<%str="";login=false; %>
+			<%
+				str = "";
+				login = false;
+			%>
 		</table>
-		<br> <a href="Show.jsp?myPage=1">首页</a> <a
-			href="Show.jsp?myPage=<%=myPage - 1%>">上一页</a> 当前第<%=myPage%>页， 共<%=totalPage%>页
-		<a href="Show.jsp?myPage=<%=myPage + 1%>">下一页</a> <a
-			href="Show.jsp?myPage=<%=totalPage%>">末页</a><br>
-		<br>
-		
+		<br> <a href="Show.jsp?myPage=1&orderWay=<%=order%>">首页</a> <a
+			href="Show.jsp?myPage=<%=myPage - 1%>&order=<%=order%>">上一页</a> 当前第<%=myPage%>页， 共<%=totalPage%>页
+		<a href="Show.jsp?myPage=<%=myPage + 1%>&order=<%=order%>">下一页</a> <a
+			href="Show.jsp?myPage=<%=totalPage%>&order=<%=order%>">末页</a><br> <br>
+
 		<form action="Query.jsp" method="post">
 			学号<input type="text" name="id"> 姓名<input type="text"
 				name="name"> 性别<input type="text" name="sex"><br>
@@ -183,9 +202,10 @@ div {
 				name="weight"><br> <br> <input type="submit"
 				value="查询"> <input type="reset" value="重置">
 		</form>
-	</div>
+</div>
+	<%=add%>
+
 	
- <%=functions %>
 
 </body>
 </html>
