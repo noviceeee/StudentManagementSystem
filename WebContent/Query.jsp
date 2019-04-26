@@ -12,13 +12,13 @@ String strSex = request.getParameter("sex");
 String strAge = request.getParameter("age");
 String strHeight = request.getParameter("height");
 String strWeight = request.getParameter("weight");
+
 int id = checkInt(strId);
 String name = checkStr(strName);
 String sex = checkStr(strSex);
 int age = checkInt(strAge);
 int height = checkInt(strHeight);
 int weight = checkInt(strWeight);
-
 
 	String url = "jdbc:mysql://localhost/student?serverTimezone=Asia/Shanghai";
 	String user = "user1";
@@ -134,7 +134,7 @@ div {
 		<hr>
 		<table border="1">
 			<tr bgcolor="LightSteelBlue">
-				<td>学号</td>
+				<td>编号</td>
 				<td>姓名</td>
 				<td>性别</td>
 				<td>年龄</td>

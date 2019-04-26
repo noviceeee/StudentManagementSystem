@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="InfoCheck.jsp"%>
 <%@ include file="AdminCheck.jsp"%>
+<%@ page import="java.sql.*" %>
 <%
 	String strId = request.getParameter("id");
 	int id = checkInt(strId);

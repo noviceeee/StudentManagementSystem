@@ -8,21 +8,21 @@
 request.setCharacterEncoding("utf-8");
 response.setCharacterEncoding("utf-8");
 
-String strId = request.getParameter("id");
 String strName = request.getParameter("name");
 String strSex = request.getParameter("sex");
 String strAge = request.getParameter("age");
 String strHeight = request.getParameter("height");
 String strWeight = request.getParameter("weight");
-int id = checkInt(strId);
+
 String name = checkStr(strName);
 String sex = checkStr(strSex);
 int age = checkInt(strAge);
 int height = checkInt(strHeight);
 int weight = checkInt(strWeight);
 
-if(strName == null||strSex==null||strAge==null||strHeight==null||strWeight==null ){}
-else if(name==null||!(sex.equals("男")||sex.equals("女"))||age<0||height<0||weight<0){
+boolean submit =(strName != null||strSex!=null||strAge!=null||strHeight!=null||strWeight!=null);
+boolean wrong =(name==null||sex==null||!(sex.equals("男")||sex.equals("女"))||age<0||height<0||weight<0);
+if(submit&&wrong){
 	out.println("<font color='red'>请正确完整地填写内容！</font>");
 	return;
 }
@@ -91,7 +91,7 @@ div {
 		<font size="5">添加信息</font>
 		<hr>
 		<form action="">
-			学号<input type="text" value="默认排序，填写无效"> 姓名<input type="text"
+			编号<input type="text" value="默认排序，填写无效"> 姓名<input type="text"
 				name="name"> 性别<input type="text" name="sex"><br>
 			<br> 年龄<input type="text" name="age"> 身高<input
 				type="text" name="height"> 体重<input type="text"
