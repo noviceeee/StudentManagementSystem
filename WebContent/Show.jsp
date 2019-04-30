@@ -9,17 +9,23 @@
 	String add = "";
 	String update = "";
 	String delete = "";
+	String status = "";
 
 	boolean login = false;
 
-	if (admin != null && admin.equals("true")) {
-		login = true;
+	if (admin != null) {
+		if (admin.equals("true"))
+			login = true;
+		if (admin.equals("false"))
+			login = false;
 	}
 
 	if (login) {
-		add = "<a href='Insert.jsp'>添加学生信息</a><p align='right'>";
+		add = "<a href='Insert.jsp'>添加学生信息</a>";
+		status = "<p align='right'><a href='Exit.jsp'>退出</a></p>";
 	} else {
-		add = "<p align='right'>使用更多功能，请先<a href='Login.jsp'>登录</a></p>";
+		status = "<p align='right'>使用更多功能，请先<a href='Login.jsp'>登录</a></p>";
+		add = "";
 
 	}
 
@@ -151,6 +157,7 @@ div {
 </style>
 </head>
 <body>
+<%=status%>
 	<div>
 		<font size="5">学生信息管理系统</font><br>
 		<hr>
@@ -164,17 +171,21 @@ div {
 				<option value="hAsc"
 					<%=orderWay.equals("height asc") ? "selected" : ""%>>身高从低到高
 
+
 				
 				<option value="hDesc"
 					<%=orderWay.equals("height desc") ? "selected" : ""%>>身高从高到低
+
 
 				
 				<option value="wAsc"
 					<%=orderWay.equals("weight asc") ? "selected" : ""%>>体重从轻到重
 
+
 				
 				<option value="wDesc"
 					<%=orderWay.equals("weight desc") ? "selected" : ""%>>体重从重到轻
+
 
 				
 			</select><br>
@@ -204,12 +215,13 @@ div {
 			%>
 		</table>
 
-		<br> <a href="Show.jsp?myPage=1&orderWay=<%=order%>">首页</a> <a
-			href="Show.jsp?myPage=<%=myPage - 1%>&order=<%=order%>">上一页</a> 当前第<%=myPage%>页，
+		<br> <a href="Show.jsp?myPage=1&order=<%=order%>">首页</a> <a
+			href="Show.jsp?myPage=<%=myPage - 1%>&order=<%=order%>">上一页</a> 第<%=myPage%>页，
 		共<%=totalPage%>页 <a
 			href="Show.jsp?myPage=<%=myPage + 1%>&order=<%=order%>">下一页</a> <a
 			href="Show.jsp?myPage=<%=totalPage%>&order=<%=order%>">末页</a><br>
-		<br><br>
+		<br>
+		<br>
 
 		<form action="Query.jsp" method="post">
 			编号<input type="text" name="id"> 姓名<input type="text"

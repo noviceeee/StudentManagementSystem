@@ -124,6 +124,9 @@ td {
 div {
 	text-align: center;
 }
+.info:hover {
+	background-color: gray;
+	color: white;
 }
 </style>
 </head>
