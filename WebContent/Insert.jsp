@@ -13,18 +13,35 @@ String strSex = request.getParameter("sex");
 String strAge = request.getParameter("age");
 String strHeight = request.getParameter("height");
 String strWeight = request.getParameter("weight");
+String submit = request.getParameter("submit");
 
-String name = checkStr(strName);
-String sex = checkStr(strSex);
+String name = checkName(strName);
+String sex = checkSex(strSex);
 int age = checkInt(strAge);
 int height = checkInt(strHeight);
 int weight = checkInt(strWeight);
 
-boolean submit =(strName != null||strSex!=null||strAge!=null||strHeight!=null||strWeight!=null);
-boolean wrong =(name==null||sex==null||!(sex.equals("男")||sex.equals("女"))||age<0||height<0||weight<0);
-if(submit&&wrong){
-	out.println("<font color='red'>请正确完整地填写内容！</font>");
+if(submit != null && submit.equals("true")){
+if(name.equals("")){
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>名字请填写中文字符！</font>");
 	return;
+}
+if(sex.equals("")){
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>性别请填写“男/女”！</font>");
+	return;
+}
+if(age<0){
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>年龄请填写正数！</font>");
+	return;
+}
+if(height<0){
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>身高请填写正数！</font>");
+	return;
+}
+if(weight<0){
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>体重请填写正数！</font>");
+	return;
+}
 }
 
 	String url = "jdbc:mysql://localhost/student?serverTimezone=Asia/Shanghai";
@@ -96,7 +113,8 @@ div {
 			<br> 年龄<input type="text" name="age"> 身高<input
 				type="text" name="height"> 体重<input type="text"
 				name="weight"><br> <br> <input type="submit"
-				value="提交"> <input type="reset" value="重置">
+				value="提交"> <input type="reset" value="重置"><input type="hidden"
+				name="submit" value="true">
 		</form>
 	</div>
 </body>

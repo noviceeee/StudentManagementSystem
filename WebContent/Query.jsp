@@ -14,8 +14,8 @@ String strHeight = request.getParameter("height");
 String strWeight = request.getParameter("weight");
 
 int id = checkInt(strId);
-String name = checkStr(strName);
-String sex = checkStr(strSex);
+String name = checkName(strName);
+String sex = checkSex(strSex);
 int age = checkInt(strAge);
 int height = checkInt(strHeight);
 int weight = checkInt(strWeight);
