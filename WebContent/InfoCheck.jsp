@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%!int checkInt(String str) {
-		String regex = "[1-9][0-9]*";//正则表达式，数字，不能为零
+		String regex = "[1-9][0-9]*";//正则表达式，正整数
 		if (str != null) {
 			str = str.trim();
 			if (str.matches(regex))

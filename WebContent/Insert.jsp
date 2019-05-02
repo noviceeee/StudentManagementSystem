@@ -31,15 +31,15 @@ if(sex.equals("")){
 	return;
 }
 if(age<0){
-	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>年龄请填写正数！</font>");
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>年龄请填写正整数！</font>");
 	return;
 }
 if(height<0){
-	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>身高请填写正数！</font>");
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>身高请填写正整数！</font>");
 	return;
 }
 if(weight<0){
-	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>体重请填写正数！</font>");
+	out.println("<a href='Insert.jsp'>返回</a>&nbsp&nbsp<font color='red'>体重请填写正整数！</font>");
 	return;
 }
 }
